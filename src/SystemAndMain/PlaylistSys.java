@@ -16,80 +16,48 @@ import ItemInheritance.AudioBook;
 import ItemInheritance.Item;
 import ItemInheritance.Podcast;
 import ItemInheritance.Song;
+import java.sql.*;
 
 public class PlaylistSys {
 	
 	 private static ArrayList<Playlist> playlists = new ArrayList<Playlist>();
-	 
-	 public static <E> boolean loadRecords() {
-		 File input = new File("input.txt");
+	 static Connection con;
+	 static {
 		 try {
-			Scanner inp = new Scanner(input);
-			String line;
-			String[] itemInfo, playlistInfo;
-			ArrayList<E> itemList = new ArrayList<E>();
-			
-			while(inp.hasNext())
-			{
-				line = inp.nextLine();
-					while(line.equalsIgnoreCase("end"))
-					{
-						itemInfo = line.split("***");
-						if(itemInfo[0].equalsIgnoreCase("AudioBook"))
-						{
-							Duration dur = new Duration(Integer.parseInt(itemInfo[5]), Integer.parseInt(itemInfo[6]), Integer.parseInt(itemInfo[7]));
-							AudioBook ab = new AudioBook(itemInfo[1], Integer.parseInt(itemInfo[2]), itemInfo[3], itemInfo[4], dur, itemInfo[8], itemInfo[9], createImageIcon(itemInfo[10]));
-							itemList.add((E) ab);
-						}
-						else if(itemInfo[0].equalsIgnoreCase("Podcast"))
-						{
-							Duration dur = new Duration(Integer.parseInt(itemInfo[6]), Integer.parseInt(itemInfo[7]), Integer.parseInt(itemInfo[8]));
-							Podcast p = new Podcast(itemInfo[1],itemInfo[2],Integer.parseInt(itemInfo[3]),itemInfo[4],itemInfo[5], dur, itemInfo[9], itemInfo[10], createImageIcon(itemInfo[11]));
-							itemList.add((E) p);
-						}
-						else if(itemInfo[0].equalsIgnoreCase("Song"))
-						{
-							Duration dur = new Duration(Integer.parseInt(itemInfo[6]), Integer.parseInt(itemInfo[7]), Integer.parseInt(itemInfo[8]));
-							Artist a = new Artist(itemInfo[1],itemInfo[2],itemInfo[3]);
-							Song s = new Song(a, itemInfo[4],itemInfo[5],dur,itemInfo[9], itemInfo[10], createImageIcon(itemInfo[11]));
-							itemList.add((E) s);
-						}
-						line = inp.nextLine();
-					}
-				
-				line = inp.nextLine();
-				playlistInfo = line.split("***");
-				Duration dur = new Duration(Integer.parseInt(playlistInfo[0]),Integer.parseInt(playlistInfo[1]),Integer.parseInt(playlistInfo[2]));
-				Playlist pl = new Playlist(itemList, dur, playlistInfo[3],  Integer.parseInt(playlistInfo[4]), playlistInfo[5], createImageIcon(playlistInfo[6]));
-				playlists.add(pl);
-			}
-			return true;
-		} catch (FileNotFoundException e) {
+			 String url = "jdbc:mysql://localhost:3306/plmap";
+			 String user = "root";
+			 String pwd = "";
+			 con = DriverManager.getConnection(url, user, pwd);
+			 Statement stmt = con.createStatement();
+			 ResultSet res = stmt.executeQuery("SELECT * FROM playlists");
+			 System.out.print("success");
+		 } catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			 e1.printStackTrace();
 		}
 	 }
 	 
-	 public static void saveRecords() throws IOException {
-		 FileWriter fw = new FileWriter("input.txt");
-		 for(Playlist p : playlists)
-		 {
-			 for (int i = 0; i < p.getItems().size(); i++) {
-				 if (p.getItems().get(i) instanceof Song) {
-				     Song song = (Song) p.getItems().get(i);
-				     fw.write("song***" + song.getArtist().getFirstName() + "***" + song.getArtist().getLastName() + "***" + song.getArtist().getStageName() + "***" + song.getTitle() + "***" + song.getReleaseDate() + "***" + song.getDuration().getHr() + "***" + song.getDuration().getMin() + "***" + song.getDuration().getSec() + "***" + song.getLanguage() + "***" + song.getGenre() + "***" + song.getCover() + "\n");				        
-				 } else if (p.getItems().get(i) instanceof Podcast) {
-					 Podcast podcast = (Podcast) p.getItems().get(i);
-					 fw.write("podcast***" + podcast.getHost() + "***" + podcast.getDesc() + "***" + podcast.getEpisodes() + "***" + podcast.getTitle() + "***" + podcast.getReleaseDate() + "***" + podcast.getDuration().getHr() + "***" + podcast.getDuration().getMin() + "***" + podcast.getDuration().getSec() + "***" + podcast.getLanguage() + "***" + podcast.getGenre() + "***" + podcast.getCover() + "\n");			 
-				 } else {
-					 AudioBook ab = (AudioBook) p.getItems().get(i);
-					 fw.write("audiobook***" + ab.getAuthor() + "***" + ab.getChapters() + "***" + ab.getTitle() + "***" + ab.getReleaseDate() + "***" + ab.getDuration().getHr() + "***" + ab.getDuration().getMin() + "***" + ab.getDuration().getSec() + "***" + ab.getDuration().getSec() + "***" + ab.getLanguage() + "***" + ab.getGenre() + "***" + ab.getCover() + "\n");
-					 
-				 }
-				 fw.write(p.getDuration().getHr() + "***" + p.getDuration().getMin() + "***" + p.getDuration().getSec() + "***" + p.getCreationDate() + "***" + p.getItemAmount() + "***" + p.getTitle() + "***" + p.getCover() + "\nend\n");
+	 public static void loadfiles()
+	 {
+		 String read = "SELECT * FROM playlists";
+		 try {
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(read);
+			
+			while(res.next())
+			{
+				String title = res.getString("title");
+				String creation  = res.getString("creation");
+				String cover  = res.getString("cover");
+				ArrayList<Item> items = new ArrayList();
+				Playlist pl = new Playlist(items, null, creation, 0, title, null);
+			 	playlists.add(pl);
 			}
-		 }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 	 }
 	 
 	 public static boolean createPlaylist(String title, String path)
@@ -112,6 +80,17 @@ public class PlaylistSys {
 
 	 	Playlist pl = new Playlist(items, null, date, 0, title, image);
 	 	playlists.add(pl);
+	 
+	 	try {
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO playlists(title, creation, cover) VALUES(?,?,?)");
+			stmt.setString(1, pl.getTitle());
+			stmt.setString(2, pl.getCreationDate());
+			stmt.setString(3, image.toString());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	 	System.out.println("New playlist has been added!");
 	 	return true;
 	 }

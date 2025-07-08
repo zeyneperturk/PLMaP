@@ -4,23 +4,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import javax.swing.ImageIcon;
+import java.sql.*;
 
 import GUI.*;
 
 public class PLMaP_Main {
 
 	public static void main(String[] args) {
-		PlaylistSys.loadRecords();
+		
+		PlaylistSys.loadfiles();
+		
 		MainFrame mf = new MainFrame();
 		mf.setVisible(true);
-		Runtime.getRuntime().addShutdownHook(new Thread(()-> {
-			try {
-				PlaylistSys.saveRecords();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}));
 		/*
 		// TODO Auto-generated method stub
 		Scanner input = new Scanner(System.in);
