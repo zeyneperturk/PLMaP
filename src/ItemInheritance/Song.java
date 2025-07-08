@@ -21,8 +21,7 @@ public class Song extends Item{
 	public void setArtist(Artist artist) {
 		this.artist = artist;
 	}
-
-	@Override
+	
 	public void calculateDuration(int sec, int min, int hr) {
 		// TODO Auto-generated method stub
 		if(sec > 60)
@@ -39,7 +38,6 @@ public class Song extends Item{
 		return "\nSong Info:\n Artist:" + artist + super.toString() + "\nDuration: " + toStringDuration(duration);
 	}
 
-	@Override
 	public String toStringDuration(Duration dur) {
 		String out = "";
 		out = dur.getMin() + " Minute(s)" + dur.getSec() + " Second(s), is the length of this song\n";

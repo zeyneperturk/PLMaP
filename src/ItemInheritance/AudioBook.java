@@ -37,8 +37,6 @@ public class AudioBook extends Item{
 		return "\nAudio Book Info\n Author:" + author + "\nDuration: "+ toStringDuration(duration) + "\n Chapter Count=" + chapters + super.toString();
 	}
 
-
-	@Override
 	public void calculateDuration(int sec, int min, int hr) {
 		// TODO Auto-generated method stub
 		if(sec > 60)
@@ -54,7 +52,6 @@ public class AudioBook extends Item{
 		}
 	}
 
-	@Override
 	public String toStringDuration(Duration dur) {
 		String out = "";
 		out = dur.getHr() + " Hour(s)" + dur.getMin() + " Minute(s)" + dur.getSec() + " Second(s), is the length of this audiobook\n";

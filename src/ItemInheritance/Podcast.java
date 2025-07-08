@@ -48,7 +48,6 @@ public class Podcast extends Item{
 	}
 
 
-	@Override
 	public void calculateDuration(int sec, int min, int hr) {
 		// TODO Auto-generated method stub
 		if(sec > 60)
@@ -69,7 +68,6 @@ public class Podcast extends Item{
 		return "\nPodcast Info\n Host:" + host + "\n Description=" + desc + "Duration Info: " + toStringDuration(duration) + "\n Episode Count=" + episodes + super.toString();
 	}
 
-	@Override
 	public String toStringDuration(Duration dur) {
 		String out = "";
 		out = dur.getHr() + " Hour(s)" + dur.getMin() + " Minute(s)" + dur.getSec() + " Second(s), is the length of this podcast\n";

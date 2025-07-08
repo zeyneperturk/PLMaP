@@ -2,9 +2,8 @@ package ItemInheritance;
 import javax.swing.ImageIcon;
 
 import Classes_HasA.Duration;
-import Interface.DurationInterface;
 
-public abstract class Item implements DurationInterface {
+public abstract class Item{
 	protected String title;
 	protected String releaseDate;
 	protected Duration duration;
@@ -78,10 +77,8 @@ public abstract class Item implements DurationInterface {
 				+ "\nGenre= " + genre + "\n";
 	}
 	
-	public abstract void calculateDuration(int sec, int min, int hr);
-	
-	public abstract String toStringDuration(Duration dur);
-	
 	public abstract void notification();
+
+	public abstract void calculateDuration(int sec, int min, int hr);
 
 }

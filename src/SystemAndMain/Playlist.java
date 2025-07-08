@@ -4,12 +4,11 @@ import java.util.Collections;
 import javax.swing.ImageIcon;
 
 import Classes_HasA.Duration;
-import Interface.DurationInterface;
 import ItemInheritance.AudioBook;
 import ItemInheritance.Podcast;
 import ItemInheritance.Song;
 
-public class Playlist<E> implements DurationInterface {
+public class Playlist<E>{
 	private ArrayList<E> items = new ArrayList<E>(); //changed Item to E
 	private Duration duration;
 	private String creationDate;
