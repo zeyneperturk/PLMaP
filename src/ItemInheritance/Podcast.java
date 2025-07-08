@@ -65,13 +65,16 @@ public class Podcast extends Item{
 
 	@Override
 	public String toString() {
-		return "\nPodcast Info\n Host:" + host + "\n Description=" + desc + "Duration Info: " + toStringDuration(duration) + "\n Episode Count=" + episodes + super.toString();
-	}
-
-	public String toStringDuration(Duration dur) {
-		String out = "";
-		out = dur.getHr() + " Hour(s)" + dur.getMin() + " Minute(s)" + dur.getSec() + " Second(s), is the length of this podcast\n";
-		return out;
+		return "\nPodcast Info"
+				+ "\nTitle: " + title
+				+ "\nHost: " + host
+				+ "\nDescription: " + desc
+				+ "\nRelease Date: " + releaseDate
+				+ "\nLanguage: " + language
+				+ "\nGenre: " + genre
+				+ "\nDuration: " + duration.toString()
+				+ "\nEpisode Count: " + episodes
+				+ "\n";
 	}
 	
 	public void notification() {

@@ -33,8 +33,6 @@ public class AddItem extends JFrame {
 	private JTextField tfDuration;
 	private JTextField tfLanguage;
 	private JTextField tfCover;
-	private JTextField tfArtistFirstName;
-	private JTextField tfArtistLastName;
 	private JTextField tfArtistStageName;
 	private JTextField tfPodcastHost;
 	private JTextField tfPodcastDesc;
@@ -56,8 +54,6 @@ public class AddItem extends JFrame {
 	tfLanguage.setText("");
 	tfGenre.setText("");
 	tfCover.setText("");
-	tfArtistFirstName.setText("");
-	tfArtistLastName.setText("");
 	tfArtistStageName.setText("");
 	tfPodcastHost.setText("");
 	tfPodcastEpisodes.setText("");
@@ -76,12 +72,6 @@ public class AddItem extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
-	
-	
-		
-
 		
 		tfTitle = new JTextField();
 		tfTitle.setFont(new Font("MS UI Gothic", Font.PLAIN, 10));
@@ -149,40 +139,16 @@ public class AddItem extends JFrame {
 		tfCover.setBounds(178, 220, 195, 19);
 		contentPane.add(tfCover);
 		
-		tfArtistFirstName = new JTextField();
-		tfArtistFirstName.setFont(new Font("MS UI Gothic", Font.PLAIN, 10));
-		tfArtistFirstName.setColumns(10);
-		tfArtistFirstName.setBounds(178, 249, 195, 19);
-		contentPane.add(tfArtistFirstName);
-		
-		tfArtistLastName = new JTextField();
-		tfArtistLastName.setFont(new Font("MS UI Gothic", Font.PLAIN, 10));
-		tfArtistLastName.setColumns(10);
-		tfArtistLastName.setBounds(179, 278, 195, 19);
-		contentPane.add(tfArtistLastName);
-		
 		tfArtistStageName = new JTextField();
 		tfArtistStageName.setFont(new Font("MS UI Gothic", Font.PLAIN, 10));
 		tfArtistStageName.setColumns(10);
-		tfArtistStageName.setBounds(178, 307, 195, 19);
+		tfArtistStageName.setBounds(178, 249, 195, 19);
 		contentPane.add(tfArtistStageName);
 		
-		JLabel lblArtistFirstName = new JLabel("Artist First Name:");
-		lblArtistFirstName.setForeground(Color.WHITE);
-		lblArtistFirstName.setFont(new Font("MS Gothic", Font.PLAIN, 14));
-		lblArtistFirstName.setBounds(45, 250, 136, 13);
-		contentPane.add(lblArtistFirstName);
-		
-		JLabel lblArtistLastName = new JLabel("Artist Last Name:");
-		lblArtistLastName.setForeground(Color.WHITE);
-		lblArtistLastName.setFont(new Font("MS Gothic", Font.PLAIN, 14));
-		lblArtistLastName.setBounds(51, 279, 126, 13);
-		contentPane.add(lblArtistLastName);
-		
-		JLabel lblArtistStageName = new JLabel("Artist Stage Name:");
+		JLabel lblArtistStageName = new JLabel("Artist Name:");
 		lblArtistStageName.setForeground(Color.WHITE);
 		lblArtistStageName.setFont(new Font("MS Gothic", Font.PLAIN, 14));
-		lblArtistStageName.setBounds(41, 305, 130, 18);
+		lblArtistStageName.setBounds(45, 250, 136, 13);
 		contentPane.add(lblArtistStageName);
 		
 
@@ -304,12 +270,8 @@ public class AddItem extends JFrame {
 		lblTitle.setFont(new Font("MS Gothic", Font.PLAIN, 14));
 		lblTitle.setBounds(125, 79, 51, 13);
 		contentPane.add(lblTitle);
-		
-		lblArtistFirstName.setVisible(false);
-		lblArtistLastName.setVisible(false);
+
 		lblArtistStageName.setVisible(false);
-		tfArtistFirstName.setVisible(false);
-		tfArtistLastName.setVisible(false);
 		tfArtistStageName.setVisible(false);
 		
 		lblAudioBookAuthor.setVisible(false);
@@ -327,11 +289,7 @@ public class AddItem extends JFrame {
 		rdbtnSong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-					lblArtistFirstName.setVisible(true);
-					lblArtistLastName.setVisible(true);
 					lblArtistStageName.setVisible(true);
-					tfArtistFirstName.setVisible(true);
-					tfArtistLastName.setVisible(true);
 					tfArtistStageName.setVisible(true);
 					
 					lblAudioBookAuthor.setVisible(false);
@@ -360,11 +318,7 @@ public class AddItem extends JFrame {
 					tfPodcastDesc.setVisible(true);
 					tfPodcastEpisodes.setVisible(true);
 					
-					lblArtistFirstName.setVisible(false);
-					lblArtistLastName.setVisible(false);
 					lblArtistStageName.setVisible(false);
-					tfArtistFirstName.setVisible(false);
-					tfArtistLastName.setVisible(false);
 					tfArtistStageName.setVisible(false);
 				
 					lblAudioBookAuthor.setVisible(false);
@@ -384,11 +338,7 @@ public class AddItem extends JFrame {
 				tfAudioBookAuthor.setVisible(true);
 				tfAudioBookChapters.setVisible(true);
 				
-				lblArtistFirstName.setVisible(false);
-				lblArtistLastName.setVisible(false);
 				lblArtistStageName.setVisible(false);
-				tfArtistFirstName.setVisible(false);
-				tfArtistLastName.setVisible(false);
 				tfArtistStageName.setVisible(false);
 				
 				lblPodcastHost.setVisible(false);
@@ -412,7 +362,7 @@ public class AddItem extends JFrame {
 					lblWarning.setText("Fill in the text areas!");
 				} else {
 					if (rdbtnSong.isSelected()) {
-						String fname, lname, sname;
+						String artist;
 						title = tfTitle.getText();
 						releaseDate = tfReleaseDate.getText();
 						duration = tfDuration.getText().split(" ");
@@ -420,11 +370,8 @@ public class AddItem extends JFrame {
 						language = tfLanguage.getText();
 						genre = tfGenre.getText();
 						//cover = 
-						fname = tfArtistFirstName.getText();
-						lname = tfArtistLastName.getText();
-						sname = tfArtistStageName.getText();
-						
-						Artist artist = new Artist(fname, lname, sname);
+						artist = tfArtistStageName.getText();
+		
 						Song song = new Song(artist, title, releaseDate, dur, language, genre, cover);
 						
 						PlaylistSys.chosePlaylistWithTitleBool((String)pf.getComboBox().getSelectedItem()).addItem(song);

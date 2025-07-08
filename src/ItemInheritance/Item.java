@@ -67,18 +67,8 @@ public abstract class Item{
 	public void setCover(ImageIcon cover) {
 		this.cover = cover;
 	}
-
-	@Override
-	public String toString() {
-		return "\nTitle= " + title 
-				+ "\nReleaseDate= " + releaseDate 
-				+ "\nLanguage= "
-				+ language 
-				+ "\nGenre= " + genre + "\n";
-	}
 	
 	public abstract void notification();
 
 	public abstract void calculateDuration(int sec, int min, int hr);
-
 }

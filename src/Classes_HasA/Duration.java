@@ -36,4 +36,19 @@ public class Duration {
 		this.hr = hr;
 	}
 
+	@Override
+	public String toString() {
+		String str= "";
+		if(hr>0)
+			str+= hr + " hour(s) ";
+		
+		if(min>0)
+			str+= min + " minute(s) ";
+		if(sec>0)
+			str+= sec + " second(s)";
+		if(hr == 0 && min == 0 && sec == 0)
+			str += "n/a";
+		return str;
+	}
+
 }

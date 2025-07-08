@@ -9,7 +9,7 @@ public class AudioBook extends Item{
 	private String author;
 	private int chapters;
 	
-	public AudioBook(String author, int chapter,String title, String releaseDate, Duration duration, String language, String genre,ImageIcon cover) {
+	public AudioBook(String author, int chapters, String title, String releaseDate, Duration duration, String language, String genre,ImageIcon cover) {
 		
 		super(title, releaseDate, duration, language, genre, cover);
 		this.author=author;
@@ -34,7 +34,15 @@ public class AudioBook extends Item{
 
 	@Override
 	public String toString() {
-		return "\nAudio Book Info\n Author:" + author + "\nDuration: "+ toStringDuration(duration) + "\n Chapter Count=" + chapters + super.toString();
+		return "\nAudio Book Info"
+				+ "\nTitle: " + title
+				+ "\nAuthor: " + author
+				+ "\nRelease Date: " + releaseDate
+				+ "\nLanguage: " + language
+				+ "\nGenre: " + genre
+				+ "\nDuration: " + duration.toString()
+				+ "\nChapter Count: " + chapters
+				+ "\n";
 	}
 
 	public void calculateDuration(int sec, int min, int hr) {
@@ -50,12 +58,6 @@ public class AudioBook extends Item{
 			hr+=min/60;
 			min%=60;
 		}
-	}
-
-	public String toStringDuration(Duration dur) {
-		String out = "";
-		out = dur.getHr() + " Hour(s)" + dur.getMin() + " Minute(s)" + dur.getSec() + " Second(s), is the length of this audiobook\n";
-		return out;
 	}
 	
 	public void notification() {

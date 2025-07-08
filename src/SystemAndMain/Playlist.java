@@ -1,10 +1,13 @@
 package SystemAndMain;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+
 import javax.swing.ImageIcon;
 
 import Classes_HasA.Duration;
 import ItemInheritance.AudioBook;
+import ItemInheritance.Item;
 import ItemInheritance.Podcast;
 import ItemInheritance.Song;
 
@@ -49,11 +52,10 @@ public class Playlist<E>{
 	
 	@Override
 	public String toString() {
-		return "\nPlaylist \n"
-				+ "\nDuration= " + toStringDuration(duration) 
+		return "\nTitle= " + title +
+				"\nDuration= " + duration.toString()
 				+ "\nCreationDate= " + creationDate
 				+ "\nItemAmount= " + itemAmount 
-				+ "\nTitle= " + title 
 				+ "\nCover= " + cover + "\n";
 	}
 	
@@ -70,7 +72,7 @@ public class Playlist<E>{
 	}
 	
 	public void sort() {
-		items.sort(null); 
+		items.sort(Comparator.comparing(item->((Item) item).getTitle()));
 	}
 	
 	public E searchItem(String title) {
@@ -117,22 +119,6 @@ public class Playlist<E>{
 		}
 	}
 	
-	public String toStringDuration(Duration dur)
-	{
-		String str ="Duration: ";
-		
-		if(dur.getHr()>0)
-			str+= dur.getHr() + "hours ";
-		
-		if(dur.getMin()>0)
-			str+= dur.getMin() + "minutes ";
-		
-		if(dur.getSec()>0)
-			str+= dur.getSec() + "seconds ";
-		
-		return str;
-	}
-
 	public ArrayList<E> getItems() {
 		return items;
 	}
