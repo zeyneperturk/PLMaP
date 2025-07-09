@@ -1,6 +1,7 @@
 package SystemAndMain;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -71,7 +72,110 @@ public class Playlist<E>{
 	
 	public boolean addItem(E item) {
 		items.add(item);
-		count++;	
+		count++;
+			
+		try {
+			if(item instanceof Song)
+			{
+				Song s = (Song) item;
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO items(type, title, releaseD, language, genre, cover, pl_id) VALUES('s',?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, s.getTitle());
+				stmt.setString(2, s.getReleaseDate());
+				stmt.setString(3, s.getLanguage());
+				stmt.setString(4, s.getGenre());
+				stmt.setString(5, "a");
+				stmt.setInt(6, id);
+				stmt.executeUpdate();
+				ResultSet keys = stmt.getGeneratedKeys();
+				keys.next();
+				int key = keys.getInt(1);
+	
+		
+				stmt = con.prepareStatement("INSERT INTO songs(item_id, artist) VALUES(?,?)");
+				stmt.setInt(1, key);
+				stmt.setString(2, s.getArtist());
+				stmt.executeUpdate();
+				
+				stmt = con.prepareStatement("INSERT INTO duration(item_id, pl_id, sec, min, hr) VALUES(?,?,?,?,?)");
+				stmt.setInt(1, key);
+				stmt.setInt(2, id);
+				stmt.setInt(3, s.getDuration().getSec());
+				stmt.setInt(4, s.getDuration().getMin());
+				stmt.setInt(5, s.getDuration().getHr());
+				stmt.executeUpdate();
+				
+				System.out.print("new song added to the db");
+			}
+			else if(item instanceof AudioBook)
+			{
+				AudioBook a = (AudioBook) item;
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO items(type, title, releaseD, language, genre, cover, pl_id) VALUES('a',?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, a.getTitle());
+				stmt.setString(2, a.getReleaseDate());
+				stmt.setString(3, a.getLanguage());
+				stmt.setString(4, a.getGenre());
+				stmt.setString(5, "a");
+				stmt.setInt(6, id);
+				stmt.executeUpdate();
+				ResultSet keys = stmt.getGeneratedKeys();
+				keys.next();
+				int key = keys.getInt(1);
+	
+		
+				stmt = con.prepareStatement("INSERT INTO audiobooks(item_id, author, chapters) VALUES(?,?,?)");
+				stmt.setInt(1, key);
+				stmt.setString(2, a.getAuthor());
+				stmt.setInt(3, a.getChapters());
+				stmt.executeUpdate();
+				
+				stmt = con.prepareStatement("INSERT INTO duration(item_id, pl_id, sec, min, hr) VALUES(?,?,?,?,?)");
+				stmt.setInt(1, key);
+				stmt.setInt(2, id);
+				stmt.setInt(3, a.getDuration().getSec());
+				stmt.setInt(4, a.getDuration().getMin());
+				stmt.setInt(5, a.getDuration().getHr());
+				stmt.executeUpdate();
+				
+				System.out.print("new audiobook added to the db");
+			}
+			else
+			{
+				Podcast p = (Podcast) item;
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO items(type, title, releaseD, language, genre, cover, pl_id) VALUES('p',?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, p.getTitle());
+				stmt.setString(2, p.getReleaseDate());
+				stmt.setString(3, p.getLanguage());
+				stmt.setString(4, p.getGenre());
+				stmt.setString(5, "a");
+				stmt.setInt(6, id);
+				stmt.executeUpdate();
+				ResultSet keys = stmt.getGeneratedKeys();
+				keys.next();
+				int key = keys.getInt(1);
+	
+		
+				stmt = con.prepareStatement("INSERT INTO podcasts(item_id, host, description, episodes) VALUES(?,?,?,?)");
+				stmt.setInt(1, key);
+				stmt.setString(2, p.getHost());
+				stmt.setString(3, p.getDesc());
+				stmt.setInt(4, p.getEpisodes());
+				stmt.executeUpdate();
+				
+				stmt = con.prepareStatement("INSERT INTO duration(item_id, pl_id, sec, min, hr) VALUES(?,?,?,?,?)");
+				stmt.setInt(1, key);
+				stmt.setInt(2, id);
+				stmt.setInt(3, p.getDuration().getSec());
+				stmt.setInt(4, p.getDuration().getMin());
+				stmt.setInt(5, p.getDuration().getHr());
+				stmt.executeUpdate();
+				
+				System.out.print("new podcast added to the db");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 
