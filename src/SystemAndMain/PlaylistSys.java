@@ -51,7 +51,7 @@ public class PlaylistSys {
 				String cover  = res.getString("cover");
 				ArrayList<Item> items = new ArrayList();
 				
-				Playlist pl = new Playlist(items, null, creation, 0, title, null, res.getInt("id"));
+				Playlist pl = new Playlist(items, null, creation, 0, title, null, res.getInt("pl_id"));
 			 	playlists.add(pl);
 			}
 			
@@ -65,6 +65,7 @@ public class PlaylistSys {
 				for(Playlist value : playlists)
 					 if(value.getId() == res.getInt("pl_id"))
 						 value.getItems().add(s);
+				System.out.print("song");
 			}
 			
 			String readAudiobooks = "SELECT * FROM audiobooks a JOIN items i ON a.item_id = i.item_id JOIN duration d ON d.item_id = i.item_id WHERE i.type = 's'";
@@ -77,6 +78,7 @@ public class PlaylistSys {
 				for(Playlist value : playlists)
 					 if(value.getId() == res.getInt("pl_id"))
 						 value.getItems().add(a);
+				System.out.print("audiobook");
 			}
 			
 			String readPodcasts = "SELECT * FROM podcasts p JOIN items i ON p.item_id = i.item_id JOIN duration d ON d.item_id = i.item_id WHERE i.type = 's'";
@@ -89,6 +91,7 @@ public class PlaylistSys {
 				for(Playlist value : playlists)
 					 if(value.getId() == res.getInt("pl_id"))
 						 value.getItems().add(p);
+				System.out.print("podcast");
 			}
 			
 		} catch (SQLException e) {

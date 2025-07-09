@@ -1,4 +1,9 @@
 package SystemAndMain;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +25,22 @@ public class Playlist<E>{
 	private ImageIcon cover;
 	private int id;
 	private static int count=0;
+	
+	static Connection con;
+	 static {
+		 try {
+			 String url = "jdbc:mysql://localhost:3306/plmap";
+			 String user = "root";
+			 String pwd = "";
+			 con = DriverManager.getConnection(url, user, pwd);
+			 Statement stmt = con.createStatement();
+			 ResultSet res = stmt.executeQuery("SELECT * FROM playlists");
+			 System.out.print("success");
+		 } catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			 e1.printStackTrace();
+		}
+	 }
 	
 	public Playlist(ArrayList<E> item, Duration duration, String date, int amount, String title, ImageIcon cover) {
 		this.cover = cover;
@@ -50,7 +71,7 @@ public class Playlist<E>{
 	
 	public boolean addItem(E item) {
 		items.add(item);
-		count++;
+		count++;	
 		return true;
 	}
 
