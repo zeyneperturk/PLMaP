@@ -10,6 +10,7 @@ public abstract class Item{
 	protected String language;
 	protected String genre;
 	protected ImageIcon cover;
+	protected static int count = 0;
 	
 	public Item(String title, String releaseDate, Duration duration, String language, String genre, ImageIcon cover) {
 		this.cover = cover;
@@ -18,6 +19,7 @@ public abstract class Item{
 		this.language = language;
 		this.releaseDate = releaseDate;
 		this.title = title;
+		count++;
 	}
 
 	public String getTitle() {

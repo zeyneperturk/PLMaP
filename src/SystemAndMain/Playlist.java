@@ -18,6 +18,7 @@ public class Playlist<E>{
 	private int itemAmount;
 	private String title;
 	private ImageIcon cover;
+	private int id;
 	private static int count=0;
 	
 	public Playlist(ArrayList<E> item, Duration duration, String date, int amount, String title, ImageIcon cover) {
@@ -29,6 +30,20 @@ public class Playlist<E>{
 		this.title = title;
 	}
 	
+	public Playlist(ArrayList<E> item, Duration duration, String date, int amount, String title, ImageIcon cover, int id) {
+		this.cover = cover;
+		this.creationDate = date;
+		this.duration = new Duration(0,0,0);
+		this.itemAmount = amount;
+		this.items = item;
+		this.title = title;
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 	public void shuffle() {
 		Collections.shuffle(items);
 	}
@@ -38,7 +53,7 @@ public class Playlist<E>{
 		count++;
 		return true;
 	}
-	
+
 	public boolean removeItem(E item) {
 		for (E e : items) {
 			if (e.equals(item)) {
@@ -141,6 +156,14 @@ public class Playlist<E>{
 
 	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
+	}
+	
+	public static int getCount() {
+		return count;
+	}
+
+	public static void setCount(int count) {
+		Playlist.count = count;
 	}
 
 	public int getItemAmount() {

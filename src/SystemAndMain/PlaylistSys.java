@@ -39,6 +39,7 @@ public class PlaylistSys {
 	 public static void loadfiles()
 	 {
 		 String read = "SELECT * FROM playlists";
+		 int sec=0, min=0, hr=0;
 		 try {
 			Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(read);
@@ -49,9 +50,47 @@ public class PlaylistSys {
 				String creation  = res.getString("creation");
 				String cover  = res.getString("cover");
 				ArrayList<Item> items = new ArrayList();
-				Playlist pl = new Playlist(items, null, creation, 0, title, null);
+				
+				Playlist pl = new Playlist(items, null, creation, 0, title, null, res.getInt("id"));
 			 	playlists.add(pl);
 			}
+			
+			String readSongs = "SELECT * FROM songs s JOIN items i ON s.item_id = i.item_id JOIN duration d ON d.item_id = i.item_id WHERE i.type = 's'";
+			res = stmt.executeQuery(readSongs);
+			
+			while(res.next())
+			{
+				Duration dur = new Duration(res.getInt("sec"), res.getInt("min"), res.getInt("hr"));
+				Song s = new Song(res.getString("artist"), res.getString("title"), res.getString("releaseD"), dur, res.getString("language"), res.getString("genre"), createImageIcon(res.getString("cover")));
+				for(Playlist value : playlists)
+					 if(value.getId() == res.getInt("pl_id"))
+						 value.getItems().add(s);
+			}
+			
+			String readAudiobooks = "SELECT * FROM audiobooks a JOIN items i ON a.item_id = i.item_id JOIN duration d ON d.item_id = i.item_id WHERE i.type = 's'";
+			res = stmt.executeQuery(readAudiobooks);
+			
+			while(res.next())
+			{
+				Duration dur = new Duration(res.getInt("sec"), res.getInt("min"), res.getInt("hr"));
+				AudioBook a = new AudioBook(res.getString("author"), res.getInt("chapters"), res.getString("title"), res.getString("releaseD"), dur, res.getString("language"), res.getString("genre"), createImageIcon(res.getString("cover")));
+				for(Playlist value : playlists)
+					 if(value.getId() == res.getInt("pl_id"))
+						 value.getItems().add(a);
+			}
+			
+			String readPodcasts = "SELECT * FROM podcasts p JOIN items i ON p.item_id = i.item_id JOIN duration d ON d.item_id = i.item_id WHERE i.type = 's'";
+			res = stmt.executeQuery(readPodcasts);
+			
+			while(res.next())
+			{
+				Duration dur = new Duration(res.getInt("sec"), res.getInt("min"), res.getInt("hr"));
+				Podcast p = new Podcast(res.getString("host"), res.getString("desc"), res.getInt("episodes"), res.getString("title"), res.getString("releaseD"), dur, res.getString("language"), res.getString("genre"), createImageIcon(res.getString("cover")));
+				for(Playlist value : playlists)
+					 if(value.getId() == res.getInt("pl_id"))
+						 value.getItems().add(p);
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,6 +144,17 @@ public class PlaylistSys {
 		 {
 			 playlists.remove(pl);
 			 System.out.println("Playlist has been removed!");
+			 
+			 try {
+				String delete = "DELETE FROM playlists WHERE pl_id IN (SELECT pl_id FROM (SELECT pl_id FROM playlists WHERE title = ?) AS temp)";
+				PreparedStatement stmt = con.prepareStatement(delete);
+				stmt.setString(1, title);
+				stmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 return true;
 		 }
 		 System.out.println("Playlist doesnt exist!");
