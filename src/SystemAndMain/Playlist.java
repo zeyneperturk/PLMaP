@@ -183,6 +183,15 @@ public class Playlist<E>{
 		for (E e : items) {
 			if (e.equals(item)) {
 				((ArrayList<E>) item).remove(e);
+				PreparedStatement stmt;
+				try {
+					stmt = con.prepareStatement("DELETE FROM items WHERE title = ?");
+					stmt.setString(1, ((Item) item).getTitle());
+					stmt.executeUpdate();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				count--;
 				return true;
 			}
