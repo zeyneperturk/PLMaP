@@ -15,12 +15,34 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 public class DeleteItem extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfTitle;
+	
+	static Connection con;
+	 static {
+		 try {
+			 String url = "jdbc:mysql://localhost:3306/plmap";
+			 String user = "root";
+			 String pwd = "";
+			 con = DriverManager.getConnection(url, user, pwd);
+			 Statement stmt = con.createStatement();
+			 ResultSet res = stmt.executeQuery("SELECT * FROM playlists");
+			 System.out.print("success");
+		 } catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			 e1.printStackTrace();
+		}
+	 }
 
 	/**
 	 * Create the frame.
@@ -86,8 +108,22 @@ public class DeleteItem extends JFrame {
 				if (tfTitle.getText().isEmpty()) {
 					warningLabel.setText("Enter valid item");
 				} else {
-					String title = tfTitle.getText();
-					PlaylistSys.chosePlaylistWithTitleBool((String)plf.getComboBox().getSelectedItem()).removeItem(title.getClass());
+					String itemT = tfTitle.getText();
+					String plT = (String) plf.getComboBox().getSelectedItem();
+					String getItem = "SELECT title FROM items i JOIN playlists p ON i.pl_id = p.pl_id WHERE p.title = ? AND i.title = ?";
+					PreparedStatement stmt;
+					try {
+						stmt = con.prepareStatement(getItem);
+						stmt.setString(1, plT);
+						stmt.setString(2, itemT);
+						ResultSet res = stmt.executeQuery();
+						String 
+						PlaylistSys.chosePlaylistWithTitleBool();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});

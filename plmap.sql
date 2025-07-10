@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 09, 2025 at 12:36 PM
+-- Generation Time: Jul 10, 2025 at 11:56 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -51,14 +51,6 @@ CREATE TABLE IF NOT EXISTS `duration` (
   PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `duration`
---
-
-INSERT INTO `duration` (`item_id`, `pl_id`, `sec`, `min`, `hr`) VALUES
-(4, 4, 4, 4, 4),
-(7, 7, 5, 6, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -77,17 +69,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `pl_id` int NOT NULL,
   PRIMARY KEY (`item_id`),
   KEY `fk_items` (`pl_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`item_id`, `type`, `title`, `releaseD`, `language`, `genre`, `cover`, `pl_id`) VALUES
-(4, 's', 'şluılkjmö', 'dsf', 'hvnvz', 'vxcbg', 'gfndxfv', 4),
-(5, 's', 'şluılkjmö', 'dsf', 'hvnvz', 'vxcbg', 'gfndxfv', 6),
-(6, 's', 'jfgvc', 'ergdsfg', 'fdsgadfg', 'dfgs', 'a', 7),
-(7, 's', 'lksfjkl', 'jdslkdj', 'ksdjks', 'djsk', 'a', 7);
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -102,16 +84,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `creation` varchar(32) NOT NULL,
   `cover` varchar(128) NOT NULL,
   PRIMARY KEY (`pl_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `playlists`
---
-
-INSERT INTO `playlists` (`pl_id`, `title`, `creation`, `cover`) VALUES
-(5, 'bcd', '2025-07-09', 'C:\\Users\\zeynep\\Desktop\\blond.jpg'),
-(6, 'cde', '2025-07-09', 'C:\\Users\\zeynep\\Desktop\\blond.jpg'),
-(7, 'abc', '2025-07-09', 'C:\\Users\\zeynep\\Desktop\\blond.jpg');
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -140,16 +113,6 @@ CREATE TABLE IF NOT EXISTS `songs` (
   `artist` varchar(64) NOT NULL,
   PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `songs`
---
-
-INSERT INTO `songs` (`item_id`, `artist`) VALUES
-(4, 'dfdhgk'),
-(5, 'fsdvx'),
-(6, 'dsfasd'),
-(7, 'sdcsd');
 
 --
 -- Constraints for dumped tables

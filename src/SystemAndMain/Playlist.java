@@ -187,6 +187,7 @@ public class Playlist<E>{
 				try {
 					stmt = con.prepareStatement("DELETE FROM items WHERE title = ?");
 					stmt.setString(1, ((Item) item).getTitle());
+					System.out.println(((Item) item).getTitle());
 					stmt.executeUpdate();
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
